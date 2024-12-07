@@ -9,13 +9,13 @@ namespace AdventOfCode.Solutions
 
         protected string ReadFile(string dayText)
         {
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), $"Files\\{dayText}\\{dayText}.txt");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, $"Files\\{dayText}\\{dayText}.txt");
             return File.ReadAllText(path);
         }
 
         protected string[] ReadFileAsArray(string dayText)
         {
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), $"Files\\{dayText}\\{dayText}.txt");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, $"Files\\{dayText}\\{dayText}.txt");
             return File.ReadAllLines(path);
         }
     }

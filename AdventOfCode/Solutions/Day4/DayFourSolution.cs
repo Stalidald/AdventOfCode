@@ -147,7 +147,6 @@ namespace AdventOfCode.Solutions.Day4
             {
                 int counter = 0;
                 bool found = true;
-                string str = "";
                 while (counter < 4)
                 {
                     var text = lines[i + counter][j].ToString();
