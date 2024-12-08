@@ -3,6 +3,7 @@ using AdventOfCode.Solutions.Day4;
 using AdventOfCode.Solutions.Day5;
 using AdventOfCode.Solutions.Day6;
 using AdventOfCode.Solutions.Day7;
+using AdventOfCode.Solutions.Day8;
 
 //var dts = new DayTwoSolution();
 //Console.WriteLine(dts.RunSolution());
@@ -24,6 +25,10 @@ using AdventOfCode.Solutions.Day7;
 ////Console.Write(dSix.Task1());
 //Console.Write(dSix.Task2());
 
-var dSeven = new DaySevenSolution();
-//Console.WriteLine(dSeven.Task1());
-Console.WriteLine(dSeven.Task2());
+//var dSeven = new DaySevenSolution();
+////Console.WriteLine(dSeven.Task1());
+//Console.WriteLine(dSeven.Task2());
+
+var dEight = new DayEightSolution();
+//Console.Write(dEight.Task1());
+Console.Write(dEight.Task2());
