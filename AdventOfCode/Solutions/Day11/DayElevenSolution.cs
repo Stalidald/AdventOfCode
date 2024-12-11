@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode.Solutions.Day11
 {
@@ -10,7 +11,7 @@ namespace AdventOfCode.Solutions.Day11
 
     public class DayElevenSolution : Solution<long>
     {
-        private List<long> ParseInput(string input) => input.Split(' ').Select(long.Parse).ToList();
+        private List<BigInteger> ParseInput(string input) => input.Split(' ').Select(BigInteger.Parse).ToList();
 
         private List<long> CheckStone(List<long> input, int i)
         {
@@ -65,7 +66,7 @@ namespace AdventOfCode.Solutions.Day11
             var stones = ParseInput(ReadFile("Day11"));
             var newStones = new List<long>();
 
-            newStones.AddRange(CheckStone(stones, 0));         
+            //newStones.AddRange(CheckStone(stones, 0));         
 
             return newStones.Count;
         }
@@ -73,23 +74,23 @@ namespace AdventOfCode.Solutions.Day11
         public override long Task2()
         {
             var stones = ParseInput(ReadFile("Day11"));
-            var newStones = new List<long>();
+            var newStones = new List<BigInteger>();
 
-            var map = new Dictionary<long, List<long>>();
+            var map = new Dictionary<BigInteger, List<BigInteger>>();
             newStones.AddRange(CheckStone2(stones, 0, map));
 
 
             return newStones.Count;
         }
 
-        private List<long> CheckStone2(List<long> input, int i, Dictionary<long, List<long>> map)
+        private List<BigInteger> CheckStone2(List<BigInteger> input, int i, Dictionary<BigInteger, List<BigInteger>> map)
         {
             if (i == 75) return input;
-            var stones = new List<long>();
+            var stones = new List<BigInteger>();
 
-            foreach (var stone in input)
+            for (int j  = 0; j < input.Count; j++)
             {
-
+                var stone = input[j];
                 if (map.TryGetValue(stone, out var stonesInMap))
                 {
                     stones.AddRange(stonesInMap);
