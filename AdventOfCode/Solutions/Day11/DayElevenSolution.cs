@@ -76,34 +76,54 @@ namespace AdventOfCode.Solutions.Day11
         public override long Task2()
         {
             var stones = ParseInput(ReadFile("Day11"));
-            var newStones = new List<long>();
 
-            var map = new ConcurrentDictionary<long, List<long>>();
-            newStones.AddRange(CheckStone2(stones, 0, map));
+            var map = new ConcurrentDictionary<long, long>();
 
-
-            return newStones.Count;
+            return stones.Sum(x => CalculateStepCount(x, 0, map));
         }
 
-        private List<long> CheckStone2(List<long> input, int i, ConcurrentDictionary<long, List<long>> map)
+        private long CalculateStepCount(long stone, int iteration, ConcurrentDictionary<long, long> map)
+        {          
+            return map.GetOrAdd(stone, c =>
+            {
+                var valStr = c.ToString();
+
+                if (iteration == 75) return 1;
+
+                if (stone == 0) return CalculateStepCount(1, ++iteration, map);
+
+                if (valStr.Length % 2 == 0)
+                {
+                    int mid = valStr.Length / 2;
+                    long leftPart = long.Parse(valStr.Substring(0, mid));
+                    long rightPart = long.Parse(valStr.Substring(mid));
+
+                    return CalculateStepCount(leftPart, ++iteration, map) + CalculateStepCount(rightPart, ++iteration, map);
+                }
+
+                return CalculateStepCount(2024 * c, ++iteration, map);
+            });     
+        }
+
+
+        private List<long> CheckStone2(List<long> input, int i, ConcurrentDictionary<long, long> map)
         {
-            if (i == 75) return input;
+            if (i == 25) return input;
             var stones = new List<long>();
 
             for (int j  = 0; j < input.Count; j++)
             {
                 var stone = input[j];
-                if (map.TryGetValue(stone, out var stonesInMap))
+                if (map.TryGetValue(stone, out var stoneInMap))
                 {
-                    stones.AddRange(stonesInMap);
+                    stones.Add(stoneInMap);
                     continue;
                 }
-                map.TryAdd(stone, []);
+                map.TryAdd(stone, 1);
 
                 var stoneStr = stone.ToString();
                 if (stone == 0)
                 {
-                    map[stone].Add(1);
                     stones.Add(1);
                 }
                 else if (stoneStr.Length % 2 == 0)
@@ -117,29 +137,30 @@ namespace AdventOfCode.Solutions.Day11
                     if (!string.IsNullOrEmpty(leftSide))
                     {
                         stones.Add(long.Parse(leftSide));
-                        map[stone].Add(long.Parse(leftSide));
+                        map[stone] = long.Parse(leftSide);
                     }
                     else
                     {
                         stones.Add(0);
-                        map[stone].Add(0);
+                        map[stone] = 0;
                     }
 
                     if (!string.IsNullOrEmpty(rightSide))
                     {
                         stones.Add(long.Parse(rightSide));
-                        map[stone].Add(long.Parse(rightSide));
+                        map[stone] = long.Parse(rightSide);
                     }
                     else
                     {
                         stones.Add(0);
-                        map[stone].Add(0);
+                        map[stone] = 0;
                     }
                 }
                 else
                 {
-                    stones.Add(stone * 2024);
-                    map[stone].Add(stone * 2024);
+                    var num = stone * 2024;
+                    stones.Add(num);
+                    map[stone] = num;
                 }
             }
 
