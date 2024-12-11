@@ -1,7 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Net.Http.Headers;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode.Solutions.Day11
 {
@@ -13,12 +10,13 @@ namespace AdventOfCode.Solutions.Day11
 
     public class DayElevenSolution : Solution<long>
     {
+        private long step = 0;
         private List<long> ParseInput(string input) => input.Split(' ').Select(long.Parse).ToList();
 
         private List<long> CheckStone(List<long> input, int i)
         {
             if (i == 25) return input;
-            
+
 
             var stones = new List<long>();
 
@@ -35,12 +33,13 @@ namespace AdventOfCode.Solutions.Day11
                     var rightSide = stoneStr.Substring(stoneStr.Length / 2);
 
                     leftSide = leftSide.TrimStart('0');
-                    rightSide =  rightSide.TrimStart('0');
+                    rightSide = rightSide.TrimStart('0');
 
                     if (!string.IsNullOrEmpty(leftSide))
                     {
                         stones.Add(int.Parse(leftSide));
-                    } else
+                    }
+                    else
                     {
                         stones.Add(0);
                     }
@@ -68,7 +67,7 @@ namespace AdventOfCode.Solutions.Day11
             var stones = ParseInput(ReadFile("Day11"));
             var newStones = new List<long>();
 
-            newStones.AddRange(CheckStone(stones, 0));         
+            newStones.AddRange(CheckStone(stones, 0));
 
             return newStones.Count;
         }
@@ -79,30 +78,42 @@ namespace AdventOfCode.Solutions.Day11
 
             var map = new ConcurrentDictionary<long, long>();
 
-            return stones.Sum(x => CalculateStepCount(x, 0, map));
+            step = stones.Count;
+            foreach (var stone in stones)
+            {
+                var res = CalculateStepCount(stone, 0);
+            }
+
+            return step;
         }
 
-        private long CalculateStepCount(long stone, int iteration, ConcurrentDictionary<long, long> map)
-        {          
-            return map.GetOrAdd(stone, c =>
+        private long CalculateStepCount(long stone, int iteration)
+        {
+
+            var valStr = stone.ToString();
+
+            long partRes = 1;
+            if (iteration == 75) return 0;
+
+            if (stone == 0)
             {
-                var valStr = c.ToString();
+                partRes = CalculateStepCount(1, iteration + 1);
+                return partRes;
+            }
 
-                if (iteration == 75) return 1;
+            if (valStr.Length % 2 == 0)
+            {
+                int mid = valStr.Length / 2;
+                long leftPart = long.Parse(valStr.Substring(0, mid));
+                long rightPart = long.Parse(valStr.Substring(mid));
 
-                if (stone == 0) return CalculateStepCount(1, ++iteration, map);
+                step ++;
+                partRes = CalculateStepCount(leftPart, iteration + 1) + CalculateStepCount(rightPart, iteration + 1);
+                return partRes;
+            }
 
-                if (valStr.Length % 2 == 0)
-                {
-                    int mid = valStr.Length / 2;
-                    long leftPart = long.Parse(valStr.Substring(0, mid));
-                    long rightPart = long.Parse(valStr.Substring(mid));
-
-                    return CalculateStepCount(leftPart, ++iteration, map) + CalculateStepCount(rightPart, ++iteration, map);
-                }
-
-                return CalculateStepCount(2024 * c, ++iteration, map);
-            });     
+            partRes = CalculateStepCount(2024 * stone, iteration + 1);
+            return partRes;
         }
 
 
@@ -111,7 +122,7 @@ namespace AdventOfCode.Solutions.Day11
             if (i == 25) return input;
             var stones = new List<long>();
 
-            for (int j  = 0; j < input.Count; j++)
+            for (int j = 0; j < input.Count; j++)
             {
                 var stone = input[j];
                 if (map.TryGetValue(stone, out var stoneInMap))
