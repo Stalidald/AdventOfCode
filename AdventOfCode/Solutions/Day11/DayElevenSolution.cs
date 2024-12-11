@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Collections.Concurrent;
+using System.Net.Http.Headers;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode.Solutions.Day11
@@ -11,11 +13,11 @@ namespace AdventOfCode.Solutions.Day11
 
     public class DayElevenSolution : Solution<long>
     {
-        private List<BigInteger> ParseInput(string input) => input.Split(' ').Select(BigInteger.Parse).ToList();
+        private List<long> ParseInput(string input) => input.Split(' ').Select(long.Parse).ToList();
 
         private List<long> CheckStone(List<long> input, int i)
         {
-            if (i == 75) return input;
+            if (i == 25) return input;
             
 
             var stones = new List<long>();
@@ -66,7 +68,7 @@ namespace AdventOfCode.Solutions.Day11
             var stones = ParseInput(ReadFile("Day11"));
             var newStones = new List<long>();
 
-            //newStones.AddRange(CheckStone(stones, 0));         
+            newStones.AddRange(CheckStone(stones, 0));         
 
             return newStones.Count;
         }
@@ -74,19 +76,19 @@ namespace AdventOfCode.Solutions.Day11
         public override long Task2()
         {
             var stones = ParseInput(ReadFile("Day11"));
-            var newStones = new List<BigInteger>();
+            var newStones = new List<long>();
 
-            var map = new Dictionary<BigInteger, List<BigInteger>>();
+            var map = new ConcurrentDictionary<long, List<long>>();
             newStones.AddRange(CheckStone2(stones, 0, map));
 
 
             return newStones.Count;
         }
 
-        private List<BigInteger> CheckStone2(List<BigInteger> input, int i, Dictionary<BigInteger, List<BigInteger>> map)
+        private List<long> CheckStone2(List<long> input, int i, ConcurrentDictionary<long, List<long>> map)
         {
             if (i == 75) return input;
-            var stones = new List<BigInteger>();
+            var stones = new List<long>();
 
             for (int j  = 0; j < input.Count; j++)
             {
@@ -96,7 +98,7 @@ namespace AdventOfCode.Solutions.Day11
                     stones.AddRange(stonesInMap);
                     continue;
                 }
-                map.Add(stone, []);
+                map.TryAdd(stone, []);
 
                 var stoneStr = stone.ToString();
                 if (stone == 0)
