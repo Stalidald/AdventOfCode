@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Solutions.Day10;
+using AdventOfCode.Solutions.Day11;
 using AdventOfCode.Solutions.Day3;
 using AdventOfCode.Solutions.Day4;
 using AdventOfCode.Solutions.Day5;
@@ -43,7 +44,11 @@ using System.Diagnostics;
 //Console.WriteLine(dNine.Task1());
 //Console.WriteLine(dNine.Task2());
 
-var dTen = new DayTenSolution();
+//var dTen = new DayTenSolution();
 //Console.WriteLine(dTen.Task1());
-Console.WriteLine(dTen.Task2());
+//Console.WriteLine(dTen.Task2());
+
+var dEleven = new DayElevenSolution();
+//Console.WriteLine(dEleven.Task1());
+Console.WriteLine(dEleven.Task2());
 

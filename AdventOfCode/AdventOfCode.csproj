@@ -11,6 +11,9 @@
     <None Update="Files\Day10\Day10.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Files\Day11\Day11.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\Day3\Day3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -35,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Files\Day11\" />
     <Folder Include="Files\Day3\" />
     <Folder Include="Files\Day4\" />
     <Folder Include="Files\Day5\" />
