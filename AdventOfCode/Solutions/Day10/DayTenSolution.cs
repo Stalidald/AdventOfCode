@@ -2,19 +2,19 @@
 {
     public class DayTenSolution : Solution<long>
     {
-        private List<HashSet<(int, int)>> Coordinates = new();
-        private List<(int, int)> Coordinates2 = new();
+        private List<HashSet<(int, int)>> Coordinates = [];
+        private List<(int, int)> Coordinates2 = [];
         public override long Task1()
         {
             var input = ReadFileAsArray("Day10");
             long result = 0;
             for (int i = 0; i < input.Length; i++)
             {
-                for (int j = 0; j < input.Length; j++)
+                for (int j = 0; j < input[i].Length; j++)
                 {
                     if (input[i][j] == '0')
                     {
-                        Coordinates.Add(new());
+                        Coordinates.Add([]);
                         TravelInput(0, i + 1, j, input, result);
                         TravelInput(0, i - 1, j, input, result);
                         TravelInput(0, i, j + 1, input, result);
@@ -37,7 +37,7 @@
                 {
                     if (num == 9)
                     {
-                        Coordinates[Coordinates.Count - 1].Add((i, j));
+                        Coordinates[^1].Add((i, j));
                     };
 
                     TravelInput(num, i + 1, j, input, result); // Bottom
@@ -56,7 +56,7 @@
             long result = 0;
             for (int i = 0; i < input.Length; i++)
             {
-                for (int j = 0; j < input.Length; j++)
+                for (int j = 0; j < input[i].Length; j++)
                 {
                     if (input[i][j] == '0')
                     {
